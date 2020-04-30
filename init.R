@@ -22,11 +22,7 @@ required_packages = c("devtools",
 
 for (package in required_packages) {
   if (package == "esri2sf") {
-    # Check for correct version of esri2sf
-    if (!((package %in% installed_packages[, 1]) && 
-          (grep(pattern = "van Bommel", x = maintainer("esri2sf"))))) {
-      devtools::install_github(repo = "mvanbommel/esri2sf")
-    }
+    install.packages("esri2sf_0.1.1.tar.gz", repos = NULL, type = "source")
   } else {
     if (!(package %in% installed_packages[, 1])) {
       install.packages(package)
