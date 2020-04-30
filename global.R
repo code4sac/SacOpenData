@@ -1,5 +1,5 @@
 # To ensure all necessary packages are installed, run:
-# source("check_packages.R")
+# source("packages.R")
 
 `%>%` = dplyr::`%>%`
 
