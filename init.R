@@ -3,8 +3,9 @@
 
 installed_packages = installed.packages()
 
+# List esri2sf last so that its dependencies are installed prior to installation
 required_packages = c("dplyr", 
-                      "esri2sf", 
+                      "httr",
                       "jsonlite", 
                       "leaflet", 
                       "leaflet.extras", 
@@ -17,7 +18,8 @@ required_packages = c("dplyr",
                       "shinyjs", 
                       "shinyWidgets", 
                       "stringr",       
-                      "tippy")
+                      "tippy",
+                      "esri2sf")
 
 for (package in required_packages) {
   if (package == "esri2sf") {
