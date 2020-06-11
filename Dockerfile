@@ -1,3 +1,5 @@
+# File for the heroku build process
+
 FROM virtualstaticvoid/heroku-docker-r:shiny
 
 # ONBUILD will copy application files into the container

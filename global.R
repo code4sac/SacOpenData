@@ -1,5 +1,6 @@
 # To ensure all necessary packages are installed, run:
-# source("init.R")
+# source("install_package.R")
+# install_packages()
 
 `%>%` = dplyr::`%>%`
 
@@ -68,7 +69,7 @@ get_data_information = function(url) {
 }
 
 get_observation_count = function(url, where = "1=1") {
-  count = tryCatch(R.utils::withTimeout(jsonlite::fromJSON(txt = paste0(url, "/query?where=", where, "&outFields=*&returnDistinctValues=true&returnCountOnly=true&outSR=4326&f=json"))$count,
+  count = tryCatch(R.utils::withTimeout(jsonlite::fromJSON(txt = paste0(url, "/query?where=", where, "&outFields=*&returnCountOnly=true&outSR=4326&f=json"))$count,
                                         timeout = 5,
                                         onTimeout = 'error'),
                    error = function(err) {

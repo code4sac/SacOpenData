@@ -1,3 +1,5 @@
+# Script for the heroku build process to run the app
+
 library(shiny)
 
 port = Sys.getenv('PORT')

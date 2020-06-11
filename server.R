@@ -22,6 +22,12 @@ server = function(input, output, session) {
     shinyjs::disable("help_button")
   })
   
+  # Auto invalidate to prevent app timeout
+  autoInvalidate = shiny::reactiveTimer(10000)
+  shiny::observe({
+    autoInvalidate()
+  })
+  
   # Initialize Reactive Values ----
   reactive_values = reactiveValues(live_api = TRUE,
                                    new_query_count = 0,
@@ -347,6 +353,14 @@ server = function(input, output, session) {
       geom_to_longitude_latitude() %>%
       unique()
     
+    # Covert dates to date format
+    column_information = data_information()$columns
+    if (any(column_information$type == "esriFieldTypeDate", na.rm = TRUE)) {
+      for (variable in column_information$name[column_information$type == "esriFieldTypeDate"]) {
+        data[, variable] = epoch_to_calendar_date(data[, variable])
+      }
+    }
+    
     # Remove loading modal
     shiny::removeModal()
     
@@ -385,16 +399,18 @@ server = function(input, output, session) {
     
     column_information = data_information()$columns
     
-    if (number_marker_variables > 0 & all(marker_variables %in% column_information$name)) {
+    if (number_marker_variables > 0 && all(marker_variables %in% column_information$name)) {
       data = filtered_data()
       
       marker_string = ""
-      
+     
       for (variable in marker_variables) {
-        marker_string = paste0(marker_string, variable, ": ", data[, variable], "<br>")
+        variable_data = data[, variable]
+
+        marker_string = paste0(marker_string, variable, ": ", variable_data, "<br>")
       }
     } else {
-      marker_string = NULL
+      marker_string = "Use Markers dropdown in sidebar to select variables to display here."
     }
     
     return(marker_string)
